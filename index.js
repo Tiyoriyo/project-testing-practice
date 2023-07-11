@@ -13,19 +13,45 @@ const calculator = (() => ({
   multiply(a, b) { return a * b; },
 }))();
 
-function caesarCipher(string, mode) {
+function caesarCipher(string) {
   const array = [];
-  const punctuation = /[A-Za-z]/;
+  const alphabet = /[A-Za-z]/;
   for (let i = 0; i < string.length; i += 1) {
-    if (string[i] === ' ' || !punctuation.test(string[i])) { array.push(string[i]); } else {
-      const prevCharCode = string.charCodeAt(i) + 5;
-      const newChar = String.fromCharCode(prevCharCode);
+    if (!alphabet.test(string[i])) { array.push(string[i]); } else {
+      const newChar = String.fromCharCode(string.charCodeAt(i) + 5);
       array.push(newChar);
     }
   }
   return array.join('');
 }
 
+function analyzeArray(array) {
+  const average = () => {
+    let total = 0; const count = array.length;
+    for (let i = 0; i < array.length; i += 1) { total += array[i]; }
+    return total / count;
+  };
+
+  const minValue = () => {
+    let min = array[0];
+    for (let i = 1; i < array.length; i += 1) { min = (array[i] < min) ? array[i] : min; }
+    return min;
+  };
+
+  const maxValue = () => {
+    let max = array[0];
+    for (let i = 1; i < array.length; i += 1) { max = (array[i] > max) ? array[i] : max; }
+    return max;
+  };
+  return {
+    average: average(),
+    min: minValue(),
+    max: maxValue(),
+    length: array.length,
+
+  };
+}
+
 module.exports = {
-  capitalize, reverseString, calculator, caesarCipher,
+  capitalize, reverseString, calculator, caesarCipher, analyzeArray,
 };
